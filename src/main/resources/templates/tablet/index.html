@@ -1,0 +1,63 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout">
+<head>
+  <title>Fah House</title>
+</head>
+<body>
+	<div layout:fragment="content">
+<div class="container">
+    <div th:fragment="header">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+                    <ul class="nav navbar-nav">
+                        <li><a href="#" th:href="@{/room/}">Rooms</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+		   <script type="text/javascript" >
+		   $(document).ready(function(){
+			    $('#rooms tbody tr').click(function(){
+			        window.open("/house/room/" +$(":first-child", this).attr("row")+"/climates", '_self');
+			    });
+			});
+		   </script>
+		   <div class="row"  style="margin-bottom:50px;">
+		      <div class="col-md-offset-2 col-md-8">
+		            <div class="panel panel-success">
+					  <div class="panel-heading">
+					    <h3 class="panel-title">Room Climates</h3>
+					  </div>
+					     <div class="panel-body">
+					              <table id="rooms" class="table table-bordered">
+									<thead>
+									   <tr class="btn-success">
+									     <th>Room</th>
+									     <th>Temperature</th>
+									     <th>Reading Date</th>
+									   </tr>
+									</thead>
+									<tbody>
+									     <tr th:if="${#lists.isEmpty(rooms)}" class="btn-warning">
+									        <td colspan="4" align="center">No Rooms Registered Yet!!!</td> 
+									     </tr>
+										   <tr th:each="room : ${rooms}">
+										     <td th:attr="row=${room.id}" th:text="${room.name}"></td>
+										     <td th:text="${#numbers.formatDecimal(climates.get(room.name).temperature,0, 'COMMA', 0, 'POINT')} +' &#x2109;'"></td>
+										     <td th:text="${#dates.format(climates.get(room.name).dateOfReading, 'MM/dd/yyyy hh:mm a')}"></td>
+										   </tr>
+									    
+									</tbody>
+								</table>
+					      </div>
+					          
+					</div>
+		       </div>
+		   </div>
+		</div>
+</body>
+</html>
